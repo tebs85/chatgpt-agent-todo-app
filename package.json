@@ -7,9 +7,13 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "npm run test:backend && npm run test:frontend",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "npm run test:backend && npm run test:frontend",
     "test:backend": "cd backend && npm test",
     "test:frontend": "cd frontend && npm test",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
     "build": "npm run build:backend && npm run build:frontend",
     "build:backend": "cd backend && npm run build",
     "build:frontend": "cd frontend && npm run build",
@@ -29,15 +33,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.5"
   },
   "lint-staged": {
-    "backend/**/*.{ts,js}": [
-      "cd backend && npm run build"
-    ],
-    "frontend/**/*.{ts,tsx,js,jsx}": [
-      "cd frontend && npm run build"
-    ]
+    "backend/**/*.{ts,js}": "bash -c 'npm run build:backend'",
+    "frontend/**/*.{ts,tsx,js,jsx}": "bash -c 'npm run build:frontend'"
   }
 }

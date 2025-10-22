@@ -3,3 +3,12 @@ dist
 .env
 *.log
 .DS_Store
+
+# Test coverage
+coverage
+*.lcov
+
+# Playwright
+test-results
+playwright-report
+playwright/.cache

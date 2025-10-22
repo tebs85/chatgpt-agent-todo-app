@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Todo, CreateTodoDto, UpdateTodoDto } from './types/todo';
 import { todoApi } from './services/api';
 import TodoForm from './components/TodoForm';

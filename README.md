@@ -222,6 +222,89 @@ docker-compose up -d
 docker-compose logs postgres
 ```
 
+## Testing
+
+This project includes comprehensive unit tests and end-to-end (E2E) tests.
+
+### Unit Tests
+
+#### Backend Tests (Jest)
+```bash
+# Run backend tests
+cd backend && npm test
+
+# Run with watch mode
+cd backend && npm run test:watch
+
+# Run with coverage
+cd backend && npm run test:cov
+```
+
+**Test Coverage:**
+- TodosService: All CRUD operations
+- TodosController: All HTTP endpoints
+- Mock implementations for database layer
+
+#### Frontend Tests (Vitest + React Testing Library)
+```bash
+# Run frontend tests
+cd frontend && npm test
+
+# Run with watch mode
+cd frontend && npm run test:watch
+
+# Run with UI
+cd frontend && npm run test:ui
+
+# Run with coverage
+cd frontend && npm run test:cov
+```
+
+**Test Coverage:**
+- TodoForm component
+- TodoItem component
+- TodoList component
+- User interactions and events
+
+### E2E Tests (Playwright)
+
+End-to-end tests verify the full application workflow from frontend to backend.
+
+```bash
+# Run E2E tests
+npm run test:e2e
+
+# Run with UI mode
+npm run test:e2e:ui
+
+# Run in headed mode (see browser)
+npm run test:e2e:headed
+```
+
+**E2E Test Coverage:**
+- Create todos with title and description
+- Mark todos as completed/incomplete
+- Delete todos
+- Stats tracking (X of Y completed)
+- Data persistence across page reloads
+- Empty state display
+- Form validation
+- Multiple operations in sequence
+
+### Run All Tests
+
+```bash
+# Run all tests (unit + E2E)
+npm test
+
+# Run only unit tests
+npm run test:unit
+```
+
+### CI Integration
+
+All tests run automatically in GitHub Actions CI/CD pipeline on every push and pull request.
+
 ## Security
 
 This application implements several security best practices:

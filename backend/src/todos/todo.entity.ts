@@ -13,7 +13,7 @@ export class Todo {
 
   @ApiProperty({ description: 'The description of the todo', example: 'Milk, eggs, bread', nullable: true })
   @Column({ type: 'text', nullable: true })
-  description: string;
+  description?: string;
 
   @ApiProperty({ description: 'Whether the todo is completed', example: false, default: false })
   @Column({ default: false })
