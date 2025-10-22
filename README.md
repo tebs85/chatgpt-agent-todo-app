@@ -2,6 +2,11 @@
 
 A full-stack todo application built with React, NestJS, and PostgreSQL.
 
+## Documentation
+
+- **[Application Guide](docs/APPLICATION_GUIDE.md)** - Complete visual guide with screenshots and functionality walkthrough
+- **[API Documentation](http://localhost:3000/api/docs)** - Interactive Swagger UI (requires backend running)
+
 ## Features
 
 - Create, read, update, and delete todos
