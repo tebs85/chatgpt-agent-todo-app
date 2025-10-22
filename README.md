@@ -255,6 +255,79 @@ curl -I http://localhost:3000/todos
 - CORS is configured to only allow requests from the frontend origin
 - Credentials are enabled for secure cookie handling
 
+## CI/CD & Development Workflow
+
+### Husky Git Hooks
+
+This project uses Husky to enforce code quality before commits:
+
+**Pre-commit Hook:**
+- Runs `lint-staged` to check staged files
+- Builds backend and frontend code to catch TypeScript errors
+- Prevents commits with build errors
+
+**Setup:**
+Husky is automatically installed when you run `npm install` in the root directory.
+
+**Manual trigger:**
+```bash
+npx husky install
+```
+
+### GitHub Actions
+
+Automated CI/CD workflows run on every push and pull request:
+
+#### CI Workflow (`.github/workflows/ci.yml`)
+
+Runs on push to `main` and `develop` branches, and on all pull requests.
+
+**Jobs:**
+1. **Backend Build & Test**
+   - Sets up Node.js 20
+   - Starts PostgreSQL service container
+   - Installs dependencies
+   - Builds backend
+   - Runs tests
+
+2. **Frontend Build & Test**
+   - Sets up Node.js 20
+   - Installs dependencies
+   - Builds frontend
+   - Runs tests
+
+3. **Lint Check**
+   - Builds both backend and frontend
+   - Ensures code compiles without errors
+
+#### Release Workflow (`.github/workflows/release.yml`)
+
+Runs on release creation or manual trigger.
+
+**Features:**
+- Builds production artifacts
+- Uploads build artifacts (backend/dist, frontend/dist)
+- Can be triggered manually from GitHub Actions tab
+
+**View Workflows:**
+Check the Actions tab in your GitHub repository to see workflow runs and status.
+
+### Local Development Scripts
+
+```bash
+# Build all projects
+npm run build
+
+# Build backend only
+npm run build:backend
+
+# Build frontend only
+npm run build:frontend
+
+# Run tests (placeholder - add actual tests)
+npm test
+```
+
 ## Troubleshooting
 
 ### Backend cannot connect to database

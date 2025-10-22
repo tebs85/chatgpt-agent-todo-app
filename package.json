@@ -1,0 +1,43 @@
+{
+  "name": "chatgpt-agent-todo-app",
+  "version": "1.0.0",
+  "description": "A full-stack todo application built with React, NestJS, and PostgreSQL.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd frontend && npm test",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:35628/git/tebs85/chatgpt-agent-todo-app"
+  },
+  "keywords": [
+    "todo",
+    "react",
+    "nestjs",
+    "postgresql",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.5"
+  },
+  "lint-staged": {
+    "backend/**/*.{ts,js}": [
+      "cd backend && npm run build"
+    ],
+    "frontend/**/*.{ts,tsx,js,jsx}": [
+      "cd frontend && npm run build"
+    ]
+  }
+}

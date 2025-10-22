@@ -331,6 +331,66 @@ curl -X POST http://localhost:3000/todos \
   -d '{"title":"Test","description":"Testing API"}'
 ```
 
+## CI/CD & Automation
+
+### Husky Git Hooks
+
+**Pre-commit Hook:**
+- Automatically runs `lint-staged` before each commit
+- Checks staged TypeScript files
+- Builds backend and frontend to catch compile errors
+- Prevents commits with build failures
+
+**Files:**
+- `.husky/pre-commit` - Pre-commit hook script
+- `package.json` - lint-staged configuration
+
+### GitHub Actions Workflows
+
+#### CI Workflow
+
+**Trigger:** Push to `main`/`develop` branches, Pull Requests
+
+**Jobs:**
+1. Backend Build & Test
+   - Node.js 20 setup
+   - PostgreSQL service container
+   - Dependencies installation
+   - Build verification
+   - Test execution
+
+2. Frontend Build & Test
+   - Node.js 20 setup
+   - Dependencies installation
+   - TypeScript compilation
+   - Build verification
+   - Test execution
+
+3. Lint Check
+   - Validates both projects compile
+   - Catches TypeScript errors
+   - Ensures code quality
+
+#### Release Workflow
+
+**Trigger:** Release creation, Manual dispatch
+
+**Actions:**
+- Builds production artifacts
+- Generates optimized builds
+- Uploads artifacts (backend/dist, frontend/dist)
+- Ready for deployment
+
+**Location:** `.github/workflows/`
+
+### Continuous Integration Features
+
+- **Automated Testing:** Runs on every push
+- **Build Verification:** Ensures code compiles
+- **PostgreSQL Integration:** Tests with real database
+- **Multi-Job Parallel:** Faster CI runs
+- **Artifact Storage:** Production builds saved
+
 ## Next Steps
 
 For detailed visual walkthrough with screenshots, see:
