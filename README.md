@@ -10,6 +10,8 @@ A full-stack todo application built with React, NestJS, and PostgreSQL.
 - Real-time updates
 - Clean and modern UI
 - RESTful API
+- Secure API with Helmet security headers
+- Interactive API documentation with Swagger
 
 ## Tech Stack
 
@@ -24,6 +26,8 @@ A full-stack todo application built with React, NestJS, and PostgreSQL.
 - TypeORM for database management
 - PostgreSQL database
 - Class-validator for validation
+- Helmet for security headers
+- Swagger/OpenAPI for API documentation
 
 ### Infrastructure
 - Docker Compose for PostgreSQL
@@ -105,7 +109,22 @@ The frontend will be running on http://localhost:5173
 
 Open your browser and navigate to http://localhost:5173
 
-## API Endpoints
+## API Documentation
+
+### Swagger UI
+
+The API documentation is available via Swagger UI at:
+
+**http://localhost:3000/api/docs**
+
+Swagger provides:
+- Interactive API documentation
+- Ability to test endpoints directly from the browser
+- Request/response schemas
+- Example payloads
+- API versioning information
+
+### API Endpoints
 
 ### Todos
 
@@ -197,6 +216,39 @@ docker-compose up -d
 ```bash
 docker-compose logs postgres
 ```
+
+## Security
+
+This application implements several security best practices:
+
+### Helmet Security Headers
+
+The backend uses Helmet middleware to set secure HTTP headers:
+
+- **Content-Security-Policy**: Restricts resources the browser can load
+- **X-Content-Type-Options**: Prevents MIME type sniffing
+- **X-Frame-Options**: Prevents clickjacking attacks
+- **X-DNS-Prefetch-Control**: Controls DNS prefetching
+- **X-Download-Options**: Prevents file downloads in older IE versions
+- **X-Permitted-Cross-Domain-Policies**: Restricts cross-domain policies
+- **Strict-Transport-Security**: Enforces HTTPS connections (in production)
+
+You can verify the security headers with:
+
+```bash
+curl -I http://localhost:3000/todos
+```
+
+### Input Validation
+
+- All API inputs are validated using class-validator
+- DTOs define strict schemas for request payloads
+- TypeScript provides compile-time type checking
+
+### CORS Configuration
+
+- CORS is configured to only allow requests from the frontend origin
+- Credentials are enabled for secure cookie handling
 
 ## Troubleshooting
 
