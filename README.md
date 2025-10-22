@@ -35,7 +35,8 @@ A full-stack todo application built with React, NestJS, and PostgreSQL.
 - Swagger/OpenAPI for API documentation
 
 ### Infrastructure
-- Docker Compose for PostgreSQL
+- Docker & Docker Compose for containerization
+- Nginx for frontend production serving
 
 ## Project Structure
 
@@ -73,14 +74,40 @@ chatgpt-agent-todo-app/
 
 ## Getting Started
 
-### 1. Clone the repository
+You can run this application in two ways:
+- **Option A**: Using Docker Compose (Recommended - easiest setup)
+- **Option B**: Manual setup (for development)
+
+### Option A: Docker Compose (Recommended)
+
+This is the quickest way to get the entire application running:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd chatgpt-agent-todo-app
+
+# Start all services (PostgreSQL, Backend, Frontend)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+Access the application at **http://localhost**
+
+The API documentation will be available at **http://localhost:3000/api/docs**
+
+### Option B: Manual Setup
+
+#### 1. Clone the repository
 
 ```bash
 git clone <repository-url>
 cd chatgpt-agent-todo-app
 ```
 
-### 2. Start the PostgreSQL database
+#### 2. Start the PostgreSQL database
 
 ```bash
 docker-compose up -d
@@ -88,7 +115,7 @@ docker-compose up -d
 
 This will start a PostgreSQL database on port 5432.
 
-### 3. Set up the backend
+#### 3. Set up the backend
 
 ```bash
 cd backend
@@ -98,7 +125,7 @@ npm run start:dev
 
 The backend API will be running on http://localhost:3000
 
-### 4. Set up the frontend
+#### 4. Set up the frontend
 
 Open a new terminal window:
 
@@ -110,7 +137,7 @@ npm run dev
 
 The frontend will be running on http://localhost:5173
 
-### 5. Access the application
+#### 5. Access the application
 
 Open your browser and navigate to http://localhost:5173
 
@@ -199,6 +226,116 @@ npm run start:prod
 cd frontend
 npm run build
 npm run preview  # Preview production build
+```
+
+## Docker Deployment
+
+### Using Docker Compose (Recommended)
+
+The easiest way to run the entire application stack is using Docker Compose, which orchestrates all three services: PostgreSQL, Backend, and Frontend.
+
+#### Quick Start
+
+```bash
+# Build and start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+```
+
+This will start:
+- **PostgreSQL** on port 5432
+- **Backend API** on port 3000
+- **Frontend** on port 80
+
+Access the application at **http://localhost**
+
+#### Custom Configuration
+
+You can customize the API URL for the frontend by setting the `VITE_API_URL` build argument:
+
+```bash
+# docker-compose.yml
+services:
+  frontend:
+    build:
+      args:
+        VITE_API_URL: http://your-api-url:3000
+```
+
+#### Rebuild Services
+
+If you make changes to the code, rebuild the services:
+
+```bash
+# Rebuild all services
+docker-compose up -d --build
+
+# Rebuild specific service
+docker-compose up -d --build backend
+docker-compose up -d --build frontend
+```
+
+### Building Individual Docker Images
+
+#### Backend Image
+
+```bash
+cd backend
+docker build -t todo-backend .
+docker run -p 3000:3000 \
+  -e DB_HOST=postgres \
+  -e DB_PORT=5432 \
+  -e DB_USERNAME=postgres \
+  -e DB_PASSWORD=postgres \
+  -e DB_DATABASE=todoapp \
+  todo-backend
+```
+
+#### Frontend Image
+
+```bash
+cd frontend
+docker build -t todo-frontend \
+  --build-arg VITE_API_URL=http://localhost:3000 .
+docker run -p 80:80 todo-frontend
+```
+
+### Docker Production Deployment
+
+For production deployments:
+
+1. **Use environment-specific configuration**:
+   - Update database credentials in docker-compose.yml
+   - Set production API URL for frontend build
+   - Enable SSL/TLS certificates for Nginx
+
+2. **Use Docker secrets or environment variables** for sensitive data
+
+3. **Set up persistent volumes** for database data (already configured)
+
+4. **Configure proper networking** between services
+
+5. **Use health checks** (already configured for PostgreSQL)
+
+Example production docker-compose.yml snippet:
+
+```yaml
+services:
+  backend:
+    environment:
+      DB_HOST: postgres
+      DB_PASSWORD: ${DB_PASSWORD}  # Use environment variable
+      NODE_ENV: production
+
+  frontend:
+    build:
+      args:
+        VITE_API_URL: https://api.yourdomain.com
 ```
 
 ## Database Management
